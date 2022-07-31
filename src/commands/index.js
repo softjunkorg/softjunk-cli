@@ -1,2 +1,3 @@
+import build from "./build/index.js";
 import create from "./create/index.js";
-export { create };
+export { build, create };

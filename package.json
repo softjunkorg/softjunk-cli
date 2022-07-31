@@ -36,6 +36,7 @@
         "chalk": "^5.0.1",
         "commander": "^9.4.0",
         "execa": "^6.1.0",
+        "hidefile": "^3.0.0",
         "inquirer": "^8.2.4",
         "listr2": "^4.0.5",
         "lua-fmt": "^2.6.0",

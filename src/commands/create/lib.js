@@ -5,6 +5,18 @@ import luamin from "luamin";
 import fs from "fs";
 
 const lineSpaces = ["game", "author", "server_script", "ui_page"];
+const unnecessaryFiles = [
+    ".github",
+    ".editorconfig",
+    ".eslintignore",
+    ".eslintrc",
+    ".gitattributes",
+    ".prettierignore",
+    ".prettierrc",
+    "CODE_OF_CONDUCT.md",
+    "LICENCE",
+    "README.md",
+];
 
 export function updateFXManifest(path, options) {
     if (path) {
@@ -22,10 +34,8 @@ export function updateFXManifest(path, options) {
         }
 
         function deleteParam(name) {
-            file.body = file.body.filter(
-                (p) => p.expression.base.name !== name
-            );
-            file.globals = file.globals.filter((g) => g.name !== name);
+            file.body = file.body.filter(p => p.expression.base.name !== name);
+            file.globals = file.globals.filter(g => g.name !== name);
         }
 
         if (!options.server) {
@@ -69,7 +79,7 @@ export function updateFXManifest(path, options) {
 
         fs.writeFileSync(filePath, data.join(""));
 
-        return new Promise((resolve) => setTimeout(resolve, 500));
+        return new Promise(resolve => setTimeout(resolve, 500));
     }
 }
 
@@ -88,7 +98,7 @@ export function updateBuildSettings(path, options) {
 
         fs.writeFileSync(filePath, JSON.stringify(file, null, 4));
 
-        return new Promise((resolve) => setTimeout(resolve, 250));
+        return new Promise(resolve => setTimeout(resolve, 250));
     }
 }
 
@@ -112,28 +122,38 @@ export function updatePackages(path, options) {
         if (uiPackageFile) {
             fs.writeFileSync(
                 uiPackagePath,
-                JSON.stringify(uiPackageFile, null, 4)
+                JSON.stringify(uiPackageFile, null, 4),
             );
         }
 
-        return new Promise((resolve) => setTimeout(resolve, 750));
+        return new Promise(resolve => setTimeout(resolve, 750));
     }
 }
 
-export function removeDirectories(path) {
+export function removeDirectories(path, options) {
     if (path) {
-        if (fs.existsSync(`${path}/src/server`)) {
+        if (options.server && fs.existsSync(`${path}/src/server`)) {
             fs.rmSync(`${path}/src/server`, { recursive: true });
         }
 
-        if (fs.existsSync(`${path}/src/client`)) {
+        if (options.server && fs.existsSync(`${path}/src/client`)) {
             fs.rmSync(`${path}/src/client`, { recursive: true });
         }
 
-        if (fs.existsSync(`${path}/src/ui`)) {
+        if (options.ui && fs.existsSync(`${path}/ui`)) {
             fs.rmSync(`${path}/ui`, { recursive: true });
         }
 
-        return new Promise((resolve) => setTimeout(resolve, 750));
+        return new Promise(resolve => setTimeout(resolve, 750));
+    }
+}
+
+export function deleteDevFiles(path) {
+    if (path) {
+        unnecessaryFiles.map(file => {
+            if (fs.existsSync(`${path}/${file}`)) {
+                fs.rmSync(`${path}/${file}`, { recursive: true });
+            }
+        });
     }
 }

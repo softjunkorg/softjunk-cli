@@ -1,3 +1,4 @@
+import { Option } from "commander";
 import { Listr } from "listr2";
 import { execa } from "execa";
 import * as Methods from "./lib.js";
@@ -33,7 +34,7 @@ export default {
             {
                 type: "confirm",
                 name: "init_git",
-                message: "Want to initialize git?",
+                message: "Do you want to initialize git?",
                 suffix: "",
                 default: true,
             },
@@ -62,6 +63,14 @@ export default {
 
                     return true;
                 },
+            },
+            {
+                type: "confirm",
+                name: "delete_dev_files",
+                message:
+                    "Do you want to delete dev files? (ESLint, Prettier, ...)",
+                suffix: "",
+                default: true,
             },
         ]);
 
@@ -98,7 +107,7 @@ export default {
                                 data: {
                                     name: answers["resource"],
                                 },
-                            }
+                            },
                         );
                     },
                 },
@@ -106,7 +115,21 @@ export default {
                     title: "Removing unnecessary files",
                     task: async function () {
                         await Methods.removeDirectories(
-                            `./${answers["resource"]}`
+                            `./${answers["resource"]}`,
+                            {
+                                server: !answers["types"].includes("server"),
+                                client: !answers["types"].includes("client"),
+                                ui: !answers["types"].includes("ui"),
+                            },
+                        );
+                    },
+                },
+                {
+                    enabled: answers["delete_dev_files"],
+                    title: "Deleting dev files",
+                    task: async function () {
+                        await Methods.deleteDevFiles(
+                            `./${answers["resource"]}`,
                         );
                     },
                 },
@@ -117,7 +140,7 @@ export default {
                             `./${answers["resource"]}`,
                             {
                                 name: answers["resource"],
-                            }
+                            },
                         );
                     },
                 },
@@ -129,12 +152,12 @@ export default {
                             {
                                 client: answers["types"].includes("client"),
                                 server: answers["types"].includes("server"),
-                            }
+                            },
                         );
                     },
                 },
             ],
-            { concurrent: false }
+            { concurrent: false },
         );
 
         await tasks.run();
@@ -143,14 +166,14 @@ export default {
         console.log(
             boxen(
                 `The resource ${chalk.green.bold(
-                    answers["resource"]
+                    answers["resource"],
                 )} was created!`,
                 {
                     padding: 1,
                     borderStyle: "round",
                     borderColor: "green",
-                }
-            )
+                },
+            ),
         );
     },
 };
