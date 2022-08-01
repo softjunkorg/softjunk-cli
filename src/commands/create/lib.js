@@ -8,8 +8,6 @@ const lineSpaces = ["game", "author", "server_script", "ui_page"];
 const unnecessaryFiles = [
     ".github",
     ".editorconfig",
-    ".eslintignore",
-    ".eslintrc",
     ".gitattributes",
     ".prettierignore",
     ".prettierrc",
@@ -85,15 +83,19 @@ export function updateFXManifest(path, options) {
 
 export function updateBuildSettings(path, options) {
     if (path) {
-        const filePath = `${path}/.build.json`;
+        const filePath = `${path}/package.json`;
         const file = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
         if (!options.server) {
-            file.options = file.options.filter((v, i) => i !== 1);
+            file.builderSettings.options = file.builderSettings.options.filter(
+                (v, i) => i !== 1,
+            );
         }
 
         if (!options.client) {
-            file.options = file.options.filter((v, i) => i !== 0);
+            file.builderSettings.options = file.builderSettings.options.filter(
+                (v, i) => i !== 0,
+            );
         }
 
         fs.writeFileSync(filePath, JSON.stringify(file, null, 4));

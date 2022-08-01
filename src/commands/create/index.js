@@ -24,7 +24,7 @@ export default {
 
                     if (input) {
                         if (fs.existsSync(`./${input}`)) {
-                            return "This resource alredy exists!";
+                            return "This resource already exists!";
                         }
                     }
 
