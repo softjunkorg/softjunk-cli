@@ -138,7 +138,7 @@ export function removeDirectories(path, options) {
             fs.rmSync(`${path}/src/server`, { recursive: true });
         }
 
-        if (options.server && fs.existsSync(`${path}/src/client`)) {
+        if (options.client && fs.existsSync(`${path}/src/client`)) {
             fs.rmSync(`${path}/src/client`, { recursive: true });
         }
 
