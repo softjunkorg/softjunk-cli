@@ -114,9 +114,9 @@ export function updatePackages(path, options) {
             : false;
 
         if (options.name) {
-            packageFile.name = `@resource/${uuid()}-${options.name}`;
+            packageFile.name = `@server-resources/${options.name}`;
             if (uiPackageFile) {
-                uiPackageFile.name = `@resource-ui/${uuid()}-${options.name}`;
+                uiPackageFile.name = `@server-resources-ui/${options.name}`;
             }
         }
 
