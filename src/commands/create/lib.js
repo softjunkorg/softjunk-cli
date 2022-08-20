@@ -134,12 +134,12 @@ export function updatePackages(path, options) {
 
 export function removeDirectories(path, options) {
     if (path) {
-        if (options.server && fs.existsSync(`${path}/src/server`)) {
-            fs.rmSync(`${path}/src/server`, { recursive: true });
+        if (options.server && fs.existsSync(`${path}/server`)) {
+            fs.rmSync(`${path}/server`, { recursive: true });
         }
 
-        if (options.client && fs.existsSync(`${path}/src/client`)) {
-            fs.rmSync(`${path}/src/client`, { recursive: true });
+        if (options.client && fs.existsSync(`${path}/client`)) {
+            fs.rmSync(`${path}/client`, { recursive: true });
         }
 
         if (options.ui && fs.existsSync(`${path}/ui`)) {
