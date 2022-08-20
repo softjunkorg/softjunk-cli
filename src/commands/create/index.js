@@ -144,18 +144,6 @@ export default {
                         );
                     },
                 },
-                {
-                    title: "Updating build settings",
-                    task: async function () {
-                        await Methods.updateBuildSettings(
-                            `./${answers["resource"]}`,
-                            {
-                                client: answers["types"].includes("client"),
-                                server: answers["types"].includes("server"),
-                            },
-                        );
-                    },
-                },
             ],
             { concurrent: false },
         );

@@ -1,6 +1,6 @@
 {
     "name": "softjunk-cli",
-    "version": "0.0.4-0",
+    "version": "0.0.4-2",
     "description": "CLI for Softjunk Framework development!",
     "keywords": [
         "cli",

@@ -81,29 +81,6 @@ export function updateFXManifest(path, options) {
     }
 }
 
-export function updateBuildSettings(path, options) {
-    if (path) {
-        const filePath = `${path}/package.json`;
-        const file = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-        if (!options.server) {
-            file.builderSettings.options = file.builderSettings.options.filter(
-                (v, i) => i !== 1,
-            );
-        }
-
-        if (!options.client) {
-            file.builderSettings.options = file.builderSettings.options.filter(
-                (v, i) => i !== 0,
-            );
-        }
-
-        fs.writeFileSync(filePath, JSON.stringify(file, null, 4));
-
-        return new Promise(resolve => setTimeout(resolve, 250));
-    }
-}
-
 export function updatePackages(path, options) {
     if (path) {
         const packagePath = `${path}/package.json`;
